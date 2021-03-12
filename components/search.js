@@ -1,25 +1,27 @@
 const { icons } = require('./icons');
 const { iconItem } = require('./iconItem');
 
-const _limit = 50;
+var _listMode = true;
+var _limit = 50;
+const _listLimit = 50;
+const _gridLimit = 100;
 
-function search(panel, search) {
-    for(var i=0; i < _limit; i++){
-        const _icon = panel.querySelector('#icon-' + i);
-        _icon.classList.remove('show');
-        _icon.classList.add('hide');
+function toggleList(panel, btn, searchTerm) {
+    const _list = panel.querySelector("#icons-list");
+    _listMode = !_listMode;
+    if(_listMode) {
+        btn.firstChild.src = `./images/view-grid.png`;
+        _limit = _listLimit;
+        _list.className = '';
+    } else {
+        btn.firstChild.src = `./images/format-list-bulleted-square.png`;
+        _limit = _gridLimit;
+        _list.className = 'icons--list';
     }
-    var total = 0;
-    let lookFor = new RegExp(search.toLowerCase());
-    for(var i=0; i < icons.length; i++) {
-        const icon = icons[i];
-        if (lookFor.test(icon.search)) {
-            if(total < _limit) {
-                iconItem(panel, icon, total);
-            }
-            total++;
-        }
-    }
+    search(panel, searchTerm);
+}
+
+function setError(panel, total) {
     const _err = panel.querySelector("#err");
     if (total === 0) {
         _err.classList.remove('hide');
@@ -36,4 +38,24 @@ function search(panel, search) {
     }
 }
 
-module.exports = { search };
+function search(panel, searchTerm) {
+    for(var i=0; i < _gridLimit; i++){
+        const _icon = panel.querySelector('#icon-' + i);
+        _icon.className = '';
+        _icon.classList.add('hide');
+    }
+    var total = 0;
+    let lookFor = new RegExp(searchTerm.toLowerCase());
+    for(var i=0; i < icons.length; i++) {
+        const icon = icons[i];
+        if (lookFor.test(icon.search)) {
+            if(total < _limit) {
+                iconItem(panel, icon, total, _listMode);
+            }
+            total++;
+        }
+    }
+    setError(panel, total);
+}
+
+module.exports = { search, toggleList };

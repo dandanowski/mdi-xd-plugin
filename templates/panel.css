@@ -1,4 +1,3 @@
-
 button {
   margin: 0;
 }
@@ -47,9 +46,9 @@ button {
   flex-wrap: wrap;
 }
 
-.icons--item {
+.icon--item {
   display: flex;
-  flex: 0;
+  flex: 1;
   margin: 2px;
   padding: 8px;
   line-height: 24px;
@@ -60,26 +59,14 @@ button {
   cursor: pointer
 }
 
-.icons--item.google {
+.icon--item.google {
   border-color: white;
 }
 
-.icons--item:hover {
+.icon--item:hover {
   color: white;
   background: #555;
   cursor: pointer;
-}
-
-.icon--label {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.icons--list .icon--label {
-  display: none;
-  flex: 1;
 }
 
 .icon--sample {
@@ -87,6 +74,12 @@ button {
   width: 24px;
   border-radius: 12px;
   margin-right: 8px;
+}
+
+.icon--label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .footer {
