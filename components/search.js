@@ -2,21 +2,14 @@ const { icons } = require('./icons');
 const { iconItem } = require('./iconItem');
 
 var _listMode = true;
-var _limit = 50;
-const _listLimit = 50;
-const _gridLimit = 100;
+var _limit = 100;
 
 function toggleList(panel, btn, searchTerm) {
-    const _list = panel.querySelector("#icons-list");
     _listMode = !_listMode;
     if(_listMode) {
         btn.firstChild.src = `./images/view-grid.png`;
-        _limit = _listLimit;
-        _list.className = '';
     } else {
         btn.firstChild.src = `./images/format-list-bulleted-square.png`;
-        _limit = _gridLimit;
-        _list.className = 'icons--list';
     }
     search(panel, searchTerm);
 }
@@ -39,7 +32,7 @@ function setError(panel, total) {
 }
 
 function search(panel, searchTerm) {
-    for(var i=0; i < _gridLimit; i++){
+    for(var i=0; i < _limit; i++){
         const _icon = panel.querySelector('#icon-' + i);
         _icon.className = '';
         _icon.classList.add('hide');

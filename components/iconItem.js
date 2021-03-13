@@ -10,13 +10,14 @@ function iconItem(panel, icon, index, mode) {
     }
     _icon.innerHTML = html;
     _icon.className = 'icon--item';
+    if (!mode) {
+        _icon.classList.add('icon--item-grid');
+    } else {
+        _icon.classList.add('icon--item-list');
+    }
     _icon.setAttribute('name', icon.name);
     _icon.setAttribute('path', icon.path);
-    if (mode) {
-        _icon.setAttribute('title', icon.author);
-    } else {
-        _icon.setAttribute('title', icon.name + `\n` + icon.author);
-    }
+    _icon.setAttribute('title', icon.name + `\n` + icon.author);
     if (icon.google === 'true') {
         _icon.classList.add('google');
     }
