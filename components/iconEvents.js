@@ -1,5 +1,5 @@
 let application = require('application');
-const { search, toggleList } = require("./search");
+const { search, toggleList, next, prev } = require("./search");
 const { createIcon } = require("./createIcon");
 const { centerInViewport } = require("../lib/utils");
 
@@ -25,7 +25,15 @@ function setIconsEvents(panel) {
     toggleBtn.addEventListener('click', () => {
         toggleList(panel, toggleBtn, iconSearch.value);
     });
-
+    // Next/Prev
+    const prevBtn = panel.querySelector('#btn-prev');
+    prevBtn.addEventListener('click', () => {
+        prev(panel, iconSearch.value);
+    });
+    const nextBtn = panel.querySelector('#btn-next');
+    nextBtn.addEventListener('click', () => {
+        next(panel, iconSearch.value);
+    });
     // Icon List
     const list = panel.querySelector('#icons-list');
     list.addEventListener('click', event => {

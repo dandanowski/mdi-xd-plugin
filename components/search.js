@@ -1,12 +1,18 @@
-const { icons } = require('./icons');
-const { iconItem } = require('./iconItem');
+const {
+    icons
+} = require('./icons');
+const {
+    iconItem
+} = require('./iconItem');
 
 var _listMode = true;
 var _limit = 100;
+var _first = 0;
+var _searched = [];
 
 function toggleList(panel, btn, searchTerm) {
     _listMode = !_listMode;
-    if(_listMode) {
+    if (_listMode) {
         btn.firstChild.src = `./images/view-grid.png`;
     } else {
         btn.firstChild.src = `./images/format-list-bulleted-square.png`;
@@ -14,41 +20,79 @@ function toggleList(panel, btn, searchTerm) {
     search(panel, searchTerm);
 }
 
-function setError(panel, total) {
-    const _err = panel.querySelector("#err");
-    if (total === 0) {
-        _err.classList.remove('hide');
-        _err.classList.add('show');
-        _err.innerHTML = 'None found';
-    } else
-    if (total > _limit) {
-        _err.classList.remove('hide');
-        _err.classList.add('show');
-        _err.innerHTML = `${_limit} of ${total} shown`;
-    } else {
-        _err.classList.remove('show');
-        _err.classList.add('hide');
+function setMessage(panel) {
+    const _end = (_first + _limit) >= _searched.length;
+    const _msg = panel.querySelector("#msg");
+    const _prevBtn = panel.querySelector('#btn-prev');
+    const _nextBtn = panel.querySelector('#btn-next');
+    const _prevBtnDisabled = panel.querySelector('#btn-prev-disabled');
+    const _nextBtnDisabled = panel.querySelector('#btn-next-disabled');
+    _prevBtnDisabled.classList.add('hide');
+    _nextBtnDisabled.classList.add('hide');
+    if (_searched.length === 0) {
+        _msg.classList.remove('hide');
+        _msg.innerHTML = 'None found';
+        _prevBtn.classList.add('hide');
+        _nextBtn.classList.add('hide');
+    }
+    if (_searched.length > _limit) {
+        _msg.innerHTML = `${_first+1}-${(_end ? _searched.length : (_first+_limit))} of ${_searched.length} shown`;
+        _msg.classList.remove('hide');
+        if (_first === 0) {
+            _prevBtnDisabled.classList.remove('hide');
+            _prevBtn.classList.add('hide');
+        } else {
+            _prevBtn.classList.remove('hide');
+        }
+        if (_end) {
+            _nextBtnDisabled.classList.remove('hide');
+            _nextBtn.classList.add('hide');
+        } else {
+            _nextBtn.classList.remove('hide');
+        }
     }
 }
 
-function search(panel, searchTerm) {
-    for(var i=0; i < _limit; i++){
+function displaySearch(panel) {
+    for (var i = 0; i < _limit; i++) {
         const _icon = panel.querySelector('#icon-' + i);
         _icon.className = '';
         _icon.classList.add('hide');
     }
-    var total = 0;
-    let lookFor = new RegExp(searchTerm.toLowerCase());
-    for(var i=0; i < icons.length; i++) {
-        const icon = icons[i];
-        if (lookFor.test(icon.search)) {
-            if(total < _limit) {
-                iconItem(panel, icon, total, _listMode);
-            }
-            total++;
-        }
+    const last = (_first + _limit) > (_searched.length) ? (_searched.length) : (_first + _limit);
+    for (var i = _first; i < last; i++) {
+        iconItem(panel, _searched[i], i - _first, _listMode);
     }
-    setError(panel, total);
+    setMessage(panel);
 }
 
-module.exports = { search, toggleList };
+function search(panel, searchTerm) {
+    _searched = [];
+    let lookFor = new RegExp(searchTerm.toLowerCase());
+    for (var i = 0; i < icons.length; i++) {
+        const icon = icons[i];
+        if (lookFor.test(icon.search)) {
+            _searched.push(icon);
+        }
+    }
+    _first = 0;
+    displaySearch(panel);
+}
+
+function next(panel) {
+    _first += _limit;
+    displaySearch(panel);
+}
+
+function prev(panel) {
+    _first -= _limit;
+    if (_first < 0) _first = 0;
+    displaySearch(panel);
+}
+
+module.exports = {
+    search,
+    toggleList,
+    next,
+    prev
+};

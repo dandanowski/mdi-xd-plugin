@@ -48,6 +48,14 @@ button {
   z-index: -1;
 }
 
+.msg {
+  width: 175px;
+}
+
+.sep {
+  margin-right: 10px;
+}
+
 .icons--list {
   display: flex;
   flex-wrap: wrap;

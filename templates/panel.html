@@ -17,8 +17,21 @@
                         <img src="./images/view-grid.png" />
                     </button>
                 </div>
-                <div style="margin-top:0;">
-                    <p id="err">Enter search criteria</p>
+                <div style="margin-top:0;display:flex;">
+                    <span id="msg" class="msg" style="padding:10px 0;">Enter search criteria</span>
+                    <span class="sep"></span>
+                    <button id="btn-prev-disabled" uxp-variant="action" class="hide" disabled title="Previous group">
+                        <img src="./images/prev.png" />
+                    </button>
+                    <button id="btn-prev" uxp-variant="action" class="hide" title="Previous group">
+                        <img src="./images/prev.png" />
+                    </button>
+                    <button id="btn-next-disabled" uxp-variant="action" class="hide" disabled title="Next group">
+                        <img src="./images/next.png" />
+                    </button>
+                    <button id="btn-next" uxp-variant="action" class="hide" title="Next group">
+                        <img src="./images/next.png" />
+                    </button>
                 </div>
                 <div class="icons--content">
                     <ul id="icons-list" class="icons--list">
@@ -129,10 +142,11 @@
     </div>
     <div class="footer">
         <div class="footer-about">
-            <a href="https://materialdesignicons.com">MDI</a>&nbsp;&bull; &copy; 2021&nbsp;<a href="https://uxerscode.com">uxerscode</a>
+            <a href="https://materialdesignicons.com">MDI</a>&nbsp;&bull; &copy; 2021&nbsp;<a
+                href="https://uxerscode.com">uxerscode</a>
         </div>
         <div class="footer-version">
-            v 1.0.2
+            v 1.1.0
         </div>
     </div>
 </div>
